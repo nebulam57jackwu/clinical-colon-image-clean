@@ -4,8 +4,8 @@ Updated: 2026-09-22 12:17 CST
 From: project initialization
 To: Claude Code or Codex
 Mode: pipeline
-Writer: Codex (ACTIVE create remote)
-Checkpoint: 305a71a Initialize clinical-colon-image-clean standalone repo
+Writer: RELEASED
+Checkpoint: bee7244 Prepare clinical-colon-image-clean GitHub repository
 Expected tree: clean after initial checkpoint; inspect Git status before assuming
 
 ## 1. Current State
@@ -23,6 +23,7 @@ Define one concrete, observable outcome before implementation.
 - [x] Multi-agent relay initialized.
 - [x] Moved out of the parent lake repo and committed as standalone Git repository.
 - [x] `make verify`, `./scripts/verify.sh`, and a 3-row exporter smoke test using `--lake-root /home/a01949/projects/clinical-image-lake` passed.
+- [x] Created and pushed public GitHub remote `https://github.com/nebulam57jackwu/clinical-colon-image-clean` on `main`.
 
 ### Touched paths and symbols
 
@@ -30,9 +31,8 @@ Define one concrete, observable outcome before implementation.
 
 ## 2. Next Steps
 
-1. Commit this standalone repo, then run the exporter against the lake with an explicit `--lake-root`.
+1. Run the exporter against the lake with an explicit `--lake-root`.
 2. Implement the manual pilot work packages described in `docs/06-implementation-plan.md`.
-3. Remote creation and push are authorized by the user; use `nebulam57jackwu/clinical-colon-image-clean`.
 
 ### Exact next action
 
