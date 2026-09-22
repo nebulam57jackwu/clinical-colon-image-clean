@@ -4,7 +4,7 @@ Updated: 2026-09-22 12:17 CST
 From: project initialization
 To: Claude Code or Codex
 Mode: pipeline
-Writer: RELEASED
+Writer: Codex (ACTIVE create remote)
 Checkpoint: 305a71a Initialize clinical-colon-image-clean standalone repo
 Expected tree: clean after initial checkpoint; inspect Git status before assuming
 
@@ -32,7 +32,7 @@ Define one concrete, observable outcome before implementation.
 
 1. Commit this standalone repo, then run the exporter against the lake with an explicit `--lake-root`.
 2. Implement the manual pilot work packages described in `docs/06-implementation-plan.md`.
-3. Add a remote only when the user provides or authorizes its URL.
+3. Remote creation and push are authorized by the user; use `nebulam57jackwu/clinical-colon-image-clean`.
 
 ### Exact next action
 
