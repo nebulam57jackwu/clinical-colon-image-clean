@@ -24,6 +24,7 @@ Define one concrete, observable outcome before implementation.
 - [x] Moved out of the parent lake repo and committed as standalone Git repository.
 - [x] `make verify`, `./scripts/verify.sh`, and a 3-row exporter smoke test using `--lake-root /home/a01949/projects/clinical-image-lake` passed.
 - [x] Created and pushed public GitHub remote `https://github.com/nebulam57jackwu/clinical-colon-image-clean` on `main`.
+- [x] Added `DATA_CATALOG.md` with source cohorts, index-date selection, quarantine, processing lineage, quality/task states, and explicit statistic denominators.
 
 ### Touched paths and symbols
 

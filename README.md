@@ -2,6 +2,8 @@
 
 GitHub repository: https://github.com/nebulam57jackwu/clinical-colon-image-clean
 
+資料內容總覽與篩選沿革請先看 [資料目錄與分類 Menu](DATA_CATALOG.md)。它把 raw cohort、index visit、quarantine、去識別化版本和下游訓練資格分開說明，並標示每個數字的統計單位。
+
 供學弟工程師執行大腸鏡影像整理的子專案：**影像檢索初篩 → 訓練品質審核 → 病灶分割提案 → 專家修正定稿 → 可追溯的訓練清單**。
 
 影像由相鄰的 `clinical-image-lake` repo 提供，使用 `image_id` 和假名化 `patient_key` 串接；任務標籤、遮罩與審核紀錄留在本 repo。原始主影像維持一份，篩除是紀錄判定，不刪檔。
