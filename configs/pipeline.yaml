@@ -1,0 +1,62 @@
+# 規劃設定，尚未由現有 exporter 讀取；null 必須完成選型/校準後填入。
+schema_version: '0.2'
+candidate_schema_version: '0.1'
+review_schema_version: '0.2'
+lake_db: shared_image_lake/metadata/dataset_metadata.duckdb
+source_id: colon-esd-t1crc-cropped-v0.1.0
+outputs_dir: projects/clinical-colon-image-clean/outputs
+run_id: null
+protocol_version: null
+partition:
+  version: null
+  seed: 20260917
+  group_by: patient_key
+  # 起始比例，凍結前由負責人確認；不代表已完成分區。
+  development_fraction: 0.6
+  calibration_fraction: 0.2
+  test_fraction: 0.2
+retrieval:
+  encoder_id: null
+  checkpoint_sha256: null
+  preprocess_version: null
+  exemplar_set_id: null
+  index_kind: exact_cosine
+  top_k_per_class: 5
+  distinct_patient_neighbors: true
+  exclude_same_patient: true
+  threshold_version: null
+  negative_margin_max: null
+  positive_margin_min: null
+  min_reference_similarity: null
+  target_retained_sensitivity: null
+  require_expert_confirmation: true
+quality:
+  use_lake_blur_qc: true
+  blur_threshold: null
+  bright_intensity_threshold: null
+  dark_intensity_threshold: null
+  overexposure_fraction_max: null
+  underexposure_fraction_max: null
+  glare_fraction_max: null
+  dirty_model_id: null
+  dirty_threshold: null
+  unknown_policy: manual_review
+segmentation:
+  # 靜態圖先比較，不將 SAM 3.1 影片 checkpoint 當成 image 模型。
+  candidates: [sam2.1, sam3_image, medsam_compatible_2d]
+  selected_model_id: null
+  checkpoint_sha256: null
+  prompt_type: box_or_points
+  coordinate_space: original_image_pixels
+  canonical_mask_values: [0, 1]
+  instance_masks_required: true
+  require_expert_review: true
+review:
+  # 起始提案，需在 protocol 中定版；疑難例全部增加覆核。
+  second_review_sample_fraction: 0.2
+  second_review_all_disagreements: true
+  allow_pending_in_release: false
+release:
+  include_negative_masks: false
+  require_all_instances_reviewed: true
+  overwrite_existing: false

@@ -1,0 +1,13 @@
+/outputs/
+/checkpoints/
+/cache/
+/masks/
+__pycache__/
+*.pyc
+*.csv
+*.parquet
+*.jsonl
+*.npz
+*.png
+*.jpg
+*.jpeg
