@@ -4,9 +4,9 @@ Updated: 2026-09-30 13:45 CST
 From: Codex — literature-guided image-classification collaboration update
 To: Claude Code or Codex
 Mode: pipeline
-Writer: RELEASED
+Writer: Codex (ACTIVE — final GitHub push handoff refresh)
 Checkpoint: 2ad659d Document literature-guided CRC LST classification collaboration
-Expected tree: clean after this checkpoint; push to origin/main is the next external action
+Expected tree: clean; origin/main is synchronized through the final handoff refresh
 
 ## 1. Current State
 
@@ -84,6 +84,7 @@ the safety behavior with local synthetic data only.
 - `git diff --check` PASS.
 - New documentation was checked for required local targets; no clinical or lake-derived artifact is included.
 - Checkpoint commit `2ad659d` contains the public collaboration and classification documentation changes.
+- `git push origin main` completed; the public repository is synchronized before this final handoff refresh.
 
 ## 5. Working Tree and Recovery
 
