@@ -4,8 +4,8 @@ Updated: 2026-09-30 13:45 CST
 From: Codex — literature-guided image-classification collaboration update
 To: Claude Code or Codex
 Mode: pipeline
-Writer: Codex (ACTIVE — final GitHub push handoff refresh)
-Checkpoint: 2ad659d Document literature-guided CRC LST classification collaboration
+Writer: RELEASED
+Checkpoint: 8535edf Record synchronized GitHub handoff
 Expected tree: clean; origin/main is synchronized through the final handoff refresh
 
 ## 1. Current State
