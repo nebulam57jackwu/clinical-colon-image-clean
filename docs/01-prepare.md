@@ -11,7 +11,7 @@ pwd
 .venv/bin/python scripts/export_lake_manifest.py --help
 ```
 
-現有基礎環境要求 Python 3.11 以上，見根目錄 `pyproject.toml`。若 `.venv` 缺失，依主專案規範建立環境；不要在系統 Python 直接升級全機套件。GPU encoder/SAM 使用另一個固定版本環境，記錄 GPU 型號、可用 VRAM、driver、CUDA、PyTorch 和權重存放位置。先用 batch size 1 量測，再增加，不能預設某張卡能跑某個大型模型。
+現有基礎環境要求 Python 3.11 以上；repo 的 exporter runtime dependency 見根目錄 `requirements.txt`。若 `.venv` 缺失，依 [協作指南](../CONTRIBUTING.md) 建立環境；不要在系統 Python 直接升級全機套件。GPU encoder/SAM 使用另一個固定版本環境，記錄 GPU 型號、可用 VRAM、driver、CUDA、PyTorch 和權重存放位置。先用 batch size 1 量測，再增加，不能預設某張卡能跑某個大型模型。
 
 工程師只能從 `shared_image_lake/images` 取得本任務輸入。`data/` 原始影像和 `.private/` lineage 不是本流程的標註輸入；碰到燒錄文字殘留的圖，記 `privacy_suspect` 並交主專案處理。
 
@@ -36,6 +36,8 @@ PY
 ```
 
 歷史交接曾記錄 43,831 張 / 571 位患者，但實際批次以這次查詢和候選清單為準。匯出欄位不含 `exam_key`、內視鏡設備、白光/NBI、病灶型態；需要分層時，新增經確認的任務 metadata，未知就保留 `unknown`，不可由舊資料夾名稱猜。
+
+若本批次要進入 CRC LST 侵入深度分類，另讀 [影像分類實驗規格](08-image-classification-experiments.md)：先保存 modality、magnification、device、ROI provenance、`frame_group_id` 與可追溯的 `lesion_group_id`；不要為了湊欄位從檔名猜 WLI/NBI 或把連續影像誤當成不同病灶。
 
 ## 1.3 匯出小批次，再建立正式快照
 

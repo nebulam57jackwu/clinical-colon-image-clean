@@ -109,3 +109,23 @@ review event 只追加。專家 A/B 各寫自己的 review；裁決引用雙方 
 `train.csv/val.csv/test.csv`：`schema_version,run_id,release_id,image_id,patient_key,image_path,image_sha256,semantic_mask_path,semantic_mask_sha256,source_id,partition_version,split,finalization_id`。一張图一列，instance manifest 另保留；每個 release image_id 唯一。
 
 `negative_retained.csv` 使用 image metadata 與 lesion/quality review IDs，不假造非空 lesion mask。所有发布來源 revision/hash 凍結，參考第 5 章與 release checklist。
+
+## 7. 影像分類實驗延伸（planned v0.2；尚未由 exporter 產生）
+
+CRC LST 侵入深度分類需要的 modality、設備、ROI 和跨 frame 病灶群組資訊，目前不在既有 v0.1 `candidates.csv`。為維持既有 exporter 相容性，先用以 `image_id` join 的 sidecar 或新 manifest 擴充，不能直接改動 v0.1 欄位順序。
+
+建議 classification metadata 至少包含：
+
+| 欄位 | 契約規則 |
+|---|---|
+| `patient_key` | 從 candidates join；只用於 patient-level split，不存姓名、病歷號或私有 lineage。 |
+| `lesion_group_id` | 由人工或有版本的 protocol 建立，代表跨多張影像的同一臨床病灶；不可由資料夾名稱、檔名或連續 frame 猜。 |
+| `image_id` / `frame_group_id` | `image_id` 是影像主鍵；`frame_group_id` 表示同次 acquisition 或影片群組，未知保留空值。 |
+| `modality` | `WLI/NBI/IEE/chromo/unknown`；未確認不可推定。 |
+| `magnification` | `non_magnified/magnified/unknown`。 |
+| `device_id` | 去識別化且穩定的設備代碼；不可放 serial number 或私有設備 lineage。 |
+| `roi_source` / `roi_box_xyxy` | `full_fov/expert_box/model_proposal/unknown`；座標以原圖像素、xyxy 半開區間保存。 |
+| `quality_status` / `quality_reason_codes` | 優先 join 既有 `quality_review.csv` 與 `quality_metrics.csv`；不要重複創造互相矛盾的 blur 欄位。 |
+| `depth_label` / `label_source` / `label_revision` | pathology 或專家標籤必須帶來源與版本；`unknown/pending` 不得自動轉成 negative。 |
+
+`instance_id` 仍只代表單張影像中的物件，不代表跨照片同一病灶；跨 frame aggregation 必須使用另行定義的 `lesion_group_id`。所有 train/calibration/test split 都要檢查 patient intersection；有 lesion group 時還要檢查 lesion intersection。完整實驗順序與驗收見 [`docs/08-image-classification-experiments.md`](../docs/08-image-classification-experiments.md)。

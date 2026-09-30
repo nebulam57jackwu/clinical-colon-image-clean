@@ -15,8 +15,50 @@ GitHub repository: https://github.com/nebulam57jackwu/clinical-colon-image-clean
 3. 與醫師依 [病灶檢索與校準](docs/02-retrieval.md) 建立範例庫，依 [影像品質判讀](docs/03-quality.md) 校準可用標準。
 4. 按 [模型分割與專家修正](docs/04-segmentation-review.md) 產出遮罩，再依 [標註操作、格式轉換與多人覆核細則](docs/07-annotation-format.md) 完成往返及定稿。
 5. 按 [驗收、交付與故障處理](docs/05-release-operations.md) 核對數量、版本與輸出。
+6. 若要進行 CRC LST 侵入深度影像分類，先讀 [文獻導向的影像分類實驗規格](docs/08-image-classification-experiments.md)，再依資料契約補充欄位後開始 baseline。
 
-要接手寫程式，另讀 [工程開發工作包](docs/06-implementation-plan.md) 和 [資料欄位契約](schemas/records.md)。每個批次複製 [批次紀錄表](templates/batch-record.md)，每次專家會議使用 [標註規範與校準表](templates/annotation-protocol.md)；分歧填 [多人覆核與裁決表](templates/review-adjudication.md)，發布前逐項填 [訓練集驗收表](templates/release-checklist.md)。本 repo 的 `Makefile verify` 只驗證 Python 語法和 whitespace；影像庫資料與模型環境需另外驗證。
+第一次加入協作請先讀 [CONTRIBUTING.md](CONTRIBUTING.md)。它說明環境建立、Git 分支、資料邊界、驗證命令和交接方式；不要直接把臨床資料、影像、mask、DuckDB 或產出檔放進公開 repo。
+
+要接手寫程式，另讀 [工程開發工作包](docs/06-implementation-plan.md) 和 [資料欄位契約](schemas/records.md)。每個批次複製 [批次紀錄表](templates/batch-record.md)，每次專家會議使用 [標註規範與校準表](templates/annotation-protocol.md)；分歧填 [多人覆核與裁決表](templates/review-adjudication.md)，發布前逐項填 [訓練集驗收表](templates/release-checklist.md)。本 repo 的 `make verify` 會驗證 Python 語法、exporter 安全契約測試和 whitespace；影像庫資料與模型環境需另外驗證。尚未安裝 DuckDB 時，資料連線測試會標示為 skip，但本地安全測試仍應通過。
+
+## 協作快速入口
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+PYTHON=.venv/bin/python make verify
+```
+
+要連到影像庫時，明確指定外部 lake 路徑，並把輸出放在被忽略的 `outputs/<run_id>/`：
+
+```bash
+CLEAN_RUN=outputs/pilot-001
+mkdir -p "$CLEAN_RUN"
+test ! -e "$CLEAN_RUN/candidates.csv" && \
+.venv/bin/python scripts/export_lake_manifest.py \
+  --lake-root /path/to/clinical-image-lake \
+  --source-id colon-esd-t1crc-cropped-v0.1.0 \
+  --limit 100 --output "$CLEAN_RUN/candidates.csv"
+```
+
+exporter 會唯讀開啟 DuckDB、檢查影像路徑仍在 lake root 內，並拒絕覆寫既有輸出。這 100 筆是依 `image_id` 排序的連通性 smoke test，不是研究抽樣。
+
+## 給學弟的 GitHub 協作入口
+
+本專案的公開 GitHub repository 是：<https://github.com/nebulam57jackwu/clinical-colon-image-clean>。
+
+```bash
+git clone git@github.com:nebulam57jackwu/clinical-colon-image-clean.git
+cd clinical-colon-image-clean
+git switch -c feat/<your-short-task>
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+PYTHON=.venv/bin/python make verify
+```
+
+協作規則、PR 前檢查、資料隱私邊界與 handoff 流程見 [`CONTRIBUTING.md`](CONTRIBUTING.md)。公開 repo 只放程式、契約與說明；臨床影像、lake、mask、DuckDB、模型權重、generated manifests 和 `outputs/` 不得上傳。
+
+影像分類研究的唯一入口是 [`docs/08-image-classification-experiments.md`](docs/08-image-classification-experiments.md)，其中固定 endpoint、patient/lesion split、ROI/context、class imbalance、lesion-level aggregation、WLI/NBI/IEE 配對與外部設備驗證的順序。
 
 ## 已能執行與尚待開發
 

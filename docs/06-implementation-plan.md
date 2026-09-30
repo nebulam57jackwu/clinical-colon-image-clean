@@ -81,3 +81,19 @@ validate_release(release_manifest, artifacts, partitions) -> report
 ## 6.6 接手第一天的具體任務
 
 讀第 0、1、7 章；確認候選匯出與已存在的 runtime 目錄；複製批次紀錄表；跑索引小批次；用兩張合成圖驗標註格式；安排 30–50 張共識會議。當天交付工程/專家各一份未解決事項清單；模型安裝可以往後排，但每個欄位的 ID、狀態與責任人要先定好。
+
+## 6.7 CRC LST 侵入深度影像分類（新增研究工作包）
+
+影像分類不是目前 exporter 已完成的功能；完整的文獻比較、資料契約延伸和 ablation 順序見 [第 8 章：文獻導向的影像分類實驗規格](08-image-classification-experiments.md)。目前先把它當作 `WP09` 規劃，不能把候選匯出完成誤稱為模型完成。
+
+建議執行順序：
+
+1. 固定 endpoint 和 patient-level split；有可靠病灶群組後再檢查 lesion-level split。
+2. 建立 full frame、tight lesion crop、ROI＋context 三種輸入 baseline。
+3. 加入 moderate rotation、resize/pad、brightness/exposure/saturation augmentation，並只在 training 使用。
+4. 比較 focal loss、class-weight 和 patient/lesion-level oversampling，保留 class balance 與 threshold 設定。
+5. 對同一病灶多張影像做 weighted mean、top-k 或 attention aggregation；frame 不可直接當獨立病例。
+6. 只有存在真實且可對齊的 WLI＋NBI/IEE 時才做 paired fusion；不可用 augmentation 假造另一 modality。
+7. 以 fixed-specificity sensitivity、AUROC、NPV、lesion/patient-level accuracy、calibration 和外部設備／時間 holdout 一起驗收。
+
+此工作包需要的 `modality`、`magnification`、`device_id`、`lesion_group_id` 和 ROI metadata 是 planned contract。先以 sidecar 或 v0.2 manifest 擴充，不改動既有 v0.1 `candidates.csv` 的欄位順序。

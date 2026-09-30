@@ -2,6 +2,23 @@
 /checkpoints/
 /cache/
 /masks/
+
+# Local environments and credentials.
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Clinical/lake-derived data and metadata. Never commit or upload these.
+/data/
+/.private/
+/shared_image_lake/
+*.duckdb
+*.sqlite
+*.sqlite3
+
+# Python caches and generated tabular/model artifacts.
 __pycache__/
 *.pyc
 *.csv
