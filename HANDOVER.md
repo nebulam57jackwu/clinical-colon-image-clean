@@ -1,12 +1,12 @@
 # Project Handover Status — clinical-colon-image-clean
 
-Updated: 2026-09-30 13:35 CST
+Updated: 2026-09-30 13:45 CST
 From: Codex — literature-guided image-classification collaboration update
 To: Claude Code or Codex
 Mode: pipeline
-Writer: Codex (ACTIVE — literature-guided image-classification collaboration update)
-Checkpoint: b155df5 Add dataset catalog and selection menu
-Expected tree: dirty until this collaboration update is reviewed and pushed
+Writer: RELEASED
+Checkpoint: 2ad659d Document literature-guided CRC LST classification collaboration
+Expected tree: clean after this checkpoint; push to origin/main is the next external action
 
 ## 1. Current State
 
@@ -83,6 +83,7 @@ the safety behavior with local synthetic data only.
 - `./scripts/verify.sh` PASS; local safety tests PASS and DuckDB-backed test SKIP under system Python because DuckDB is optional.
 - `git diff --check` PASS.
 - New documentation was checked for required local targets; no clinical or lake-derived artifact is included.
+- Checkpoint commit `2ad659d` contains the public collaboration and classification documentation changes.
 
 ## 5. Working Tree and Recovery
 
@@ -90,17 +91,13 @@ the safety behavior with local synthetic data only.
 - `outputs/` and clinical artifacts are ignored; recover source from this Git repository after the initial commit.
 
 - Branch: `main`
-- Starting checkpoint: `b155df5`
-- Staged changes: clean at start
-- Unstaged changes: collaboration-readiness edits; review before commit
-- Untracked files: inspect before work
+- Starting checkpoint: `2ad659d`
+- Staged changes: none
+- Unstaged changes: none
+- Untracked files: none expected
 - Recovery: preserve unknown changes; never reset or discard them without user approval.
 
-Expected changed paths: `.gitignore`, `CONTRIBUTING.md`, `HANDOVER.md`, `Makefile`, `README.md`,
-`requirements.txt`, `docs/01-prepare.md`, `docs/06-implementation-plan.md`,
-`docs/08-image-classification-experiments.md`, `docs/agent/DECISIONS.md`,
-`docs/agent/PROJECT.md`, `schemas/records.md`, `scripts/export_lake_manifest.py`, and
-`tests/test_export_lake_manifest.py`.
+Expected changed paths after checkpoint: none; the committed paths are listed in commit `2ad659d`.
 
 ## 6. Direct Command for the Next Agent
 
